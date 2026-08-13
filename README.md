@@ -112,7 +112,7 @@ Na jornada educacional, [Introdução à Arquitetura de Sistemas](cursos/Introdu
 | Min | Faça |
 |-----|------|
 | 0–2 | [Baixe](#baixar-o-material) o repositório (Git ou ZIP). |
-| 2–5 | Abra a raiz como **vault no Obsidian** e entre por [00-HOME.md](00-HOME.md). |
+| 2–5 | Abra [index.html](index.html) no navegador para o mapa visual (166 aulas · 67 skills · 24 squads), ou a raiz como **vault no Obsidian** e entre por [00-HOME.md](00-HOME.md). |
 | 5–8 | Abra [Como estudar — trilhas por caso](cursos/COMO-ESTUDAR.md) e identifique seu ponto de entrada. |
 | 8–12 | Se termos técnicos travam, comece por [Introdução à Arquitetura de Sistemas](cursos/Introducao-a-Arquitetura-de-Sistemas/README.md); se quer instalar e conhecer os agents, abra [AIOX Fundamentals](cursos/AIOX-Fundamentals/README.md). |
 | 12–15 | Leia o resultado, escopo e primeira aula da trilha escolhida; registre a evidência pedida pela aula. |
@@ -413,6 +413,7 @@ Aula por squad: pasta [`cursos/AIOX-Advanced-Squads/aulas/`](cursos/AIOX-Advance
 
 ```text
 .
+├── index.html                 # Mapa visual do acervo (IDV AIOX)
 ├── 00-HOME.md                 # Dashboard do vault Obsidian
 ├── cursos/                    # Trilhas canônicas (minúsculo)
 │   ├── README.md

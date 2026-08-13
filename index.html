@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AIOX Advanced Brain — 166 aulas · 67 skills · 24 squads</title>
+  <meta name="description" content="Segundo cérebro educacional do AIOX Advanced: 9 cursos, 166 aulas, 67 skills e 24 squads. Biblioteca de estudo — não é o runtime." />
+  <meta name="theme-color" content="#050505" />
+  <link rel="preconnect" href="https://api.fontshare.com" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link href="https://api.fontshare.com/v2/css?f[]=tasa-orbiter@700,800&display=swap" rel="stylesheet" />
+  <style>
+    /* AIOX IDV — tokens canônicos (brandbook + DESIGN.md do Cockpit)
+       lime #D1FF00 · dark #050505 · cream rgb(244,244,232) · radius 0 */
+    @font-face {
+      font-family: "Geist";
+      src: url("https://cdn.jsdelivr.net/fontsource/fonts/geist-sans@5.2.5/latin-wght-normal.woff2") format("woff2-variations");
+      font-weight: 100 900;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Geist Mono";
+      src: url("https://cdn.jsdelivr.net/fontsource/fonts/geist-mono@5.2.5/latin-wght-normal.woff2") format("woff2-variations");
+      font-weight: 100 900;
+      font-display: swap;
+    }
+
+    :root {
+      --lime: #D1FF00;
+      --dark: #050505;
+      --void: #000000;
+      --cream: rgb(244, 244, 232);
+      --cream-alt: rgb(245, 244, 231);
+      --warm-white: #FFFFED;
+      --surface: #0F0F11;
+      --surface-alt: #1C1E19;
+      --surface-deep: #0A0A0C;
+      --surface-panel: #18181B;
+      --surface-hover: #1E1F22;
+      --charcoal: #3D3D3D;
+      --dim: #696969;
+      --muted: #999999;
+      --silver: #BDBDBD;
+      --blue: #0099FF;
+      --flare: #ED4609;
+      --success: #22C55E;
+      --warning: #F59E0B;
+      --fg1: var(--cream);
+      --fg2: rgba(244, 244, 232, 0.70);
+      --fg3: rgba(244, 244, 232, 0.55);
+      --fg-dim: rgba(245, 244, 231, 0.40);
+      --fg-on-lime: var(--dark);
+      --border: rgba(156, 156, 156, 0.15);
+      --border-strong: rgba(156, 156, 156, 0.25);
+      --lime-05: rgba(209, 255, 0, 0.05);
+      --lime-10: rgba(209, 255, 0, 0.10);
+      --lime-25: rgba(209, 255, 0, 0.25);
+      --radius: 0px;
+      --font-display: "TASA Orbiter", "TASAOrbiterDisplay", "Geist", system-ui, sans-serif;
+      --font-sans: "Geist", system-ui, -apple-system, sans-serif;
+      --font-mono: "Geist Mono", ui-monospace, monospace;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+      --max: 1200px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    html, body { margin: 0; padding: 0; background: var(--dark); color: var(--fg1); }
+    body {
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    img, svg { display: block; max-width: 100%; }
+    a { color: inherit; }
+    button, input { font: inherit; color: inherit; }
+    :focus-visible { outline: 1px solid var(--lime); outline-offset: 3px; }
+
+    .skip {
+      position: absolute; left: 12px; top: -40px; z-index: 80;
+      background: var(--lime); color: var(--dark);
+      padding: 8px 12px; font-family: var(--font-mono); font-size: 12px;
+    }
+    .skip:focus { top: 12px; }
+
+    .grid-lines {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      display: none;
+    }
+    @media (min-width: 880px) {
+      .grid-lines {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        max-width: var(--max);
+        margin: 0 auto;
+        left: 0; right: 0;
+      }
+      .grid-lines span { border-left: 1px solid var(--border); }
+      .grid-lines span:last-child { border-right: 1px solid var(--border); }
+    }
+
+    .wrap {
+      position: relative; z-index: 1;
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+    @media (min-width: 720px) {
+      .wrap { width: min(var(--max), calc(100% - 64px)); }
+    }
+
+    header.nav {
+      position: sticky; top: 0; z-index: 40;
+      background: rgba(5, 5, 5, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; min-height: 64px;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 14px;
+      text-decoration: none;
+    }
+    .brand svg { height: 18px; width: auto; }
+    .brand-meta {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--fg3);
+    }
+    .brand-meta b { color: var(--lime); font-weight: 500; }
+    nav.links { display: none; gap: 20px; }
+    @media (min-width: 860px) {
+      nav.links { display: flex; }
+    }
+    nav.links a {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--fg2);
+    }
+    nav.links a:hover { color: var(--lime); }
+    .ver {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+      border: 1px solid var(--border-strong);
+      padding: 6px 8px;
+    }
+
+    .hero {
+      position: relative;
+      padding: 72px 0 48px;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      left: 50%; top: 58%;
+      transform: translate(-50%, -50%);
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(80px, 28vw, 320px);
+      letter-spacing: -0.06em;
+      line-height: 0.7;
+      color: var(--charcoal);
+      opacity: 0.28;
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .kicker {
+      display: flex; align-items: center; gap: 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .kicker .idx { color: var(--cream); }
+    .kicker .lab { color: var(--lime); }
+    .kicker .cur { color: var(--cream); animation: blink 1.1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    h1 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(2.4rem, 8vw, 6.2rem);
+      line-height: 0.92;
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+      margin: 0 0 28px;
+      max-width: 16ch;
+    }
+    h1 .lime { color: var(--lime); }
+    .lede {
+      font-family: var(--font-mono);
+      font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+      color: var(--fg2);
+      max-width: 38rem;
+      margin: 0 0 36px;
+    }
+    .lede strong { color: var(--cream); font-weight: 500; }
+
+    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 14px;
+      padding: 14px 20px;
+      border: 1px solid var(--border-strong);
+      background: var(--void);
+      color: var(--cream);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 500;
+      transition: background 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease);
+    }
+    .btn:hover { background: var(--cream); color: var(--dark); border-color: var(--cream); }
+    .btn.primary { background: var(--lime); color: var(--dark); border-color: var(--lime); }
+    .btn.primary:hover { background: var(--cream); border-color: var(--cream); }
+    .dots { display: flex; align-items: center; gap: 2px; }
+    .dots i { width: 4px; height: 4px; background: currentColor; display: block; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin: 56px 0 0;
+    }
+    @media (min-width: 800px) {
+      .stats { grid-template-columns: repeat(4, 1fr); }
+    }
+    .stat {
+      padding: 28px 20px 24px;
+      border-right: 1px solid var(--border);
+    }
+    .stat:nth-child(2n) { border-right: 0; }
+    @media (min-width: 800px) {
+      .stat:nth-child(2n) { border-right: 1px solid var(--border); }
+      .stat:last-child { border-right: 0; }
+    }
+    @media (max-width: 799px) {
+      .stat:nth-child(-n+2) { border-bottom: 1px solid var(--border); }
+    }
+    .stat b {
+      display: block;
+      font-family: var(--font-display);
+      font-size: clamp(2.6rem, 6vw, 4.2rem);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      line-height: 0.9;
+      color: var(--lime);
+    }
+    .stat span {
+      display: block;
+      margin-top: 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--fg3);
+    }
+
+    section.block {
+      padding: 88px 0 8px;
+      border-top: 1px solid var(--border);
+    }
+    .sec-head { margin-bottom: 36px; }
+    h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.6rem);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+      line-height: 0.95;
+      margin: 0 0 16px;
+    }
+    .sec-copy {
+      max-width: 42rem;
+      color: var(--fg2);
+      margin: 0;
+    }
+
+    .split { display: grid; gap: 16px; }
+    @media (min-width: 800px) {
+      .split.two { grid-template-columns: 1fr 1fr; }
+    }
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 24px;
+    }
+    .panel h3 {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      margin: 0 0 10px;
+    }
+    .panel p { margin: 0; color: var(--fg2); }
+    .panel.is { border-color: var(--lime-25); background: var(--lime-05); }
+    .panel.is h3 { color: var(--lime); }
+
+    .journey {
+      display: grid;
+      gap: 0;
+      border: 1px solid var(--border);
+    }
+    .j-row { display: grid; gap: 0; }
+    @media (min-width: 900px) {
+      .j-row.core { grid-template-columns: repeat(4, 1fr); }
+      .j-row.routes { grid-template-columns: repeat(4, 1fr); }
+    }
+    .j-item {
+      display: block;
+      padding: 22px 18px 20px;
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      transition: background 0.2s var(--ease);
+    }
+    .j-item:hover { background: var(--surface-hover); }
+    @media (min-width: 900px) {
+      .j-item { border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+      .j-item:last-child { border-right: 0; }
+    }
+    .j-item .n {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--lime);
+      display: block;
+      margin-bottom: 10px;
+    }
+    .j-item strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .j-item em {
+      font-style: normal;
+      color: var(--fg3);
+      font-size: 0.92rem;
+    }
+    .j-note {
+      padding: 16px 18px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--fg3);
+      background: var(--surface-deep);
+    }
+    .j-note a { color: var(--lime); }
+
+    .courses { display: grid; gap: 0; border: 1px solid var(--border); }
+    .course {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 0 20px;
+      padding: 22px 20px;
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      transition: background 0.2s var(--ease);
+    }
+    .course:last-child { border-bottom: 0; }
+    .course:hover { background: var(--surface-hover); }
+    .course .num {
+      font-family: var(--font-display);
+      font-size: 1.7rem;
+      letter-spacing: -0.04em;
+      color: var(--lime);
+      line-height: 1;
+    }
+    .course h3 {
+      margin: 0 0 4px;
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+    }
+    .course p { margin: 0; color: var(--fg2); font-size: 0.95rem; }
+    .meta {
+      display: flex; flex-wrap: wrap; gap: 8px 14px;
+      margin-top: 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--fg3);
+    }
+    .meta b { color: var(--cream); font-weight: 500; }
+    .pill {
+      display: inline-block;
+      border: 1px solid var(--border-strong);
+      padding: 2px 6px;
+      color: var(--silver);
+    }
+    .pill.core { color: var(--lime); border-color: var(--lime-25); }
+    .pill.route { color: var(--blue); border-color: rgba(0, 153, 255, 0.35); }
+    .pill.prev { color: var(--warning); border-color: rgba(245, 158, 11, 0.35); }
+
+    /* ——— nova seção: trilhas desenhadas ——— */
+    .map {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      padding: 28px 22px 22px;
+    }
+    .band { margin: 0 0 10px; }
+    .band span {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--fg3);
+    }
+    .track { display: flex; align-items: stretch; gap: 0; }
+    .station {
+      flex: 1 1 0;
+      min-width: 0;
+      text-decoration: none;
+      padding: 4px 8px 2px 0;
+    }
+    .station:hover { color: inherit; }
+    .dot {
+      display: flex;
+      align-items: center;
+      height: 14px;
+      margin-bottom: 14px;
+    }
+    .dot i {
+      width: 10px;
+      height: 10px;
+      background: var(--lime);
+      flex: 0 0 auto;
+      box-shadow: 0 0 0 4px var(--lime-10);
+    }
+    .dot .wire {
+      flex: 1 1 auto;
+      height: 1px;
+      background: var(--lime);
+      opacity: 0.7;
+    }
+    .track .station:last-child .wire { display: none; }
+    .station strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 1.08rem;
+      letter-spacing: -0.03em;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    .station:hover strong { color: var(--lime); }
+    .station em {
+      display: block;
+      margin-top: 4px;
+      font-style: normal;
+      font-size: 0.9rem;
+      color: var(--fg2);
+    }
+    .station b {
+      display: block;
+      margin-top: 8px;
+      font: 11px var(--font-mono);
+      color: var(--fg3);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .join {
+      display: flex;
+      justify-content: flex-end;
+      height: 40px;
+      padding-right: calc(12.5% - 5px);
+    }
+    .join i { width: 1px; background: var(--lime); }
+    .fan {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px 0;
+    }
+    @media (min-width: 800px) {
+      .fan { grid-template-columns: repeat(4, 1fr); }
+    }
+    .fan .dot i {
+      background: var(--cream);
+      box-shadow: 0 0 0 4px rgba(244, 244, 232, 0.08);
+    }
+    @media (min-width: 800px) {
+      .fan .dot { position: relative; }
+      .fan .dot::before {
+        content: "";
+        position: absolute;
+        left: 5px;
+        right: calc(-100% + 5px);
+        top: 5px;
+        height: 1px;
+        background: var(--border-strong);
+      }
+      .fan .station:last-child .dot::before { display: none; }
+      .fan .dot i { position: relative; z-index: 1; }
+    }
+    .join.soft i {
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(244, 244, 232, 0.45) 0 4px,
+        transparent 4px 8px
+      );
+    }
+    .preview-row { display: flex; justify-content: flex-end; }
+    .preview-row .station { flex: 0 1 25%; }
+    .preview-row .dot i {
+      background: transparent;
+      outline: 1px solid var(--warning);
+      box-shadow: none;
+    }
+    .map-note {
+      margin: 22px 0 0;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--fg3);
+    }
+
+    .lines {
+      display: grid;
+      gap: 0;
+      border: 1px solid var(--border);
+      margin-top: 20px;
+    }
+    .line {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      background: var(--surface);
+      transition: background 0.2s var(--ease);
+    }
+    .line:last-child { border-bottom: 0; }
+    .line:hover { background: var(--surface-hover); color: inherit; }
+    @media (min-width: 860px) {
+      .line { grid-template-columns: 220px 1fr; align-items: center; }
+    }
+    .line .who strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      letter-spacing: -0.03em;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    .line:hover .who strong { color: var(--lime); }
+    .line .who span {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--fg3);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .stops { display: flex; flex-wrap: wrap; align-items: center; gap: 0; }
+    .stop {
+      display: inline-flex;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--fg2);
+      white-space: nowrap;
+    }
+    .stop::after {
+      content: "";
+      width: 18px;
+      height: 1px;
+      margin: 0 8px;
+      background: var(--border-strong);
+    }
+    .stop:last-child::after { display: none; }
+    .line.core .stop::after { background: var(--lime); opacity: 0.45; }
+
+    @media (max-width: 799px) {
+      .track, .fan, .preview-row { display: block; }
+      .station {
+        display: grid;
+        grid-template-columns: 18px 1fr;
+        gap: 0 12px;
+        padding: 0 0 18px;
+      }
+      .dot {
+        grid-row: 1 / span 4;
+        flex-direction: column;
+        height: auto;
+        margin: 4px 0 0;
+        align-items: center;
+      }
+      .dot .wire {
+        width: 1px;
+        height: 100%;
+        flex: 1 1 auto;
+        min-height: 28px;
+      }
+      .track .station:last-child .wire { display: block; opacity: 0; min-height: 0; }
+      .join { display: none; }
+      .preview-row .station { flex: none; }
+    }
+
+    .toolbar {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+    .search {
+      flex: 1 1 220px;
+      min-width: 0;
+      background: var(--void);
+      border: 1px solid var(--border-strong);
+      padding: 12px 14px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+    }
+    .search::placeholder { color: var(--dim); }
+    .filters { display: flex; flex-wrap: wrap; gap: 6px; }
+    .filters button {
+      background: transparent;
+      border: 1px solid var(--border-strong);
+      padding: 8px 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      color: var(--fg2);
+    }
+    .filters button[aria-pressed="true"],
+    .filters button:hover {
+      background: var(--lime);
+      color: var(--dark);
+      border-color: var(--lime);
+    }
+    .count-live {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+    }
+
+    .catalog {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+      border: 1px solid var(--border);
+    }
+    @media (min-width: 720px) {
+      .catalog.squads { grid-template-columns: 1fr 1fr; }
+    }
+    @media (min-width: 1000px) {
+      .catalog.skills { grid-template-columns: 1fr 1fr; }
+    }
+    .card {
+      display: block;
+      padding: 18px 18px 16px;
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      transition: background 0.2s var(--ease);
+    }
+    .card:hover { background: var(--surface-hover); }
+    @media (min-width: 720px) {
+      .catalog.squads .card { border-right: 1px solid var(--border); }
+      .catalog.squads .card:nth-child(2n) { border-right: 0; }
+    }
+    @media (min-width: 1000px) {
+      .catalog.skills .card { border-right: 1px solid var(--border); }
+      .catalog.skills .card:nth-child(2n) { border-right: 0; }
+    }
+    .card .id {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--lime);
+      margin-bottom: 6px;
+    }
+    .card p { margin: 0; color: var(--fg2); font-size: 0.92rem; }
+    .tag {
+      display: inline-block;
+      margin-top: 10px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+    }
+    .card[hidden] { display: none; }
+    .empty {
+      display: none;
+      padding: 28px 18px;
+      font-family: var(--font-mono);
+      color: var(--fg3);
+      border: 1px solid var(--border);
+      border-top: 0;
+    }
+    .empty.show { display: block; }
+
+    ol.steps {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border: 1px solid var(--border);
+    }
+    ol.steps li {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 16px;
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+    ol.steps li:last-child { border-bottom: 0; }
+    ol.steps .n {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--lime);
+    }
+    ol.steps strong { display: block; margin-bottom: 4px; }
+    ol.steps a { color: var(--lime); }
+
+    footer {
+      margin-top: 96px;
+      border-top: 1px solid var(--border);
+      padding: 36px 0 56px;
+    }
+    .foot {
+      display: flex; flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--fg3);
+    }
+    .foot a { color: var(--cream); text-decoration: none; }
+    .foot a:hover { color: var(--lime); }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .kicker .cur { animation: none; }
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#conteudo">Ir ao conteúdo</a>
+  <div class="grid-lines" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#topo" aria-label="AIOX Advanced Brain">
+        <svg viewBox="0 0 1100 320" width="92" height="27" role="img" aria-label="AIOX">
+          <path fill="#D1FF00" d="M0 310.6h376.464L188.219 9.4 0 310.6Zm96.047-53.25L188.219 109.875 280.392 257.35H96.047Z"/>
+          <path fill="#D1FF00" d="M395.288 9.4h53.249v301.175h-53.249z"/>
+          <path fill="#D1FF00" d="M627.332 0c-88.373 0-159.996 71.625-159.996 160s71.623 160 159.996 160 159.995-71.625 159.995-160S715.704 0 627.332 0Zm0 266.75c-58.874 0-106.747-47.9-106.747-106.75S568.483 53.25 627.332 53.25 734.078 101.15 734.078 160s-47.898 106.75-106.746 106.75Z"/>
+          <path fill="#D1FF00" d="M1088.49 9.4h-37.62L937.922 122.35 824.976 9.4h-37.649v37.65L900.273 160 787.327 272.95v37.65h37.649l112.946-112.95 112.948 112.95h37.62v-37.65L975.571 160l112.919-112.95V9.4Z"/>
+        </svg>
+        <span class="brand-meta"><b>Advanced</b> Brain</span>
+      </a>
+      <nav class="links" aria-label="Seções">
+        <a href="#jornada">Jornada</a>
+        <a href="#trilhas">Trilhas</a>
+        <a href="#cursos">Cursos</a>
+        <a href="#skills">Skills</a>
+        <a href="#squads">Squads</a>
+        <a href="#comecar">Começar</a>
+      </nav>
+      <span class="ver">v0.6.3 · catalog.json</span>
+    </div>
+  </header>
+
+  <main id="topo">
+    <section class="hero">
+      <div class="hero-bg" aria-hidden="true">AIOX</div>
+      <div class="wrap">
+        <p class="kicker"><span class="idx">[00]</span><span class="lab">Acervo educacional</span><span class="cur">_</span></p>
+        <h1>Segundo cérebro do <span class="lime">[AIOX]</span> Advanced.</h1>
+        <p class="lede">
+          <strong>9 cursos · 166 aulas · 67 skills · 24 squads.</strong>
+          Biblioteca de distribuição e estudo — não é o runtime.
+          Estuda-se aqui; executa-se no seu projeto, com evidência.
+        </p>
+        <div class="cta-row">
+          <a class="btn primary" href="cursos/COMO-ESTUDAR.md">
+            Como estudar
+            <span class="dots" aria-hidden="true"><i></i><span style="display:flex;flex-direction:column;gap:2px"><i></i><i></i></span></span>
+          </a>
+          <a class="btn" href="README.md">README do repositório</a>
+          <a class="btn" href="00-HOME.md">Home do vault</a>
+        </div>
+        <div class="stats" role="list">
+          <div class="stat" role="listitem"><b>166</b><span>Aulas canônicas</span></div>
+          <div class="stat" role="listitem"><b>09</b><span>Cursos</span></div>
+          <div class="stat" role="listitem"><b>67</b><span>Skills</span></div>
+          <div class="stat" role="listitem"><b>24</b><span>Squads</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap" id="conteudo">
+      <section class="block" id="o-que-e" aria-labelledby="t-oque">
+        <div class="sec-head">
+          <p class="kicker"><span class="idx">[01]</span><span class="lab">Contrato</span></p>
+          <h2 id="t-oque">O que é — e o que não é</h2>
+          <p class="sec-copy">Este repositório é a biblioteca + o cérebro de estudo. O projeto seu é onde a execução acontece.</p>
+        </div>
+        <div class="split two">
+          <article class="panel is">
+            <h3>É</h3>
+            <p>Vault de curso (Markdown + wikilinks), 67 skills e 24 squads para copiar, roteador de missão e material com gates. O curso termina no artefato que funciona, não no consumo de aulas.</p>
+          </article>
+          <article class="panel">
+            <h3>Não é</h3>
+            <p>Não instala o AIOX inteiro. Não é o produto Enterprise. Skill no catálogo não significa execução autônoma — leia a maturidade em <code>catalog.json</code> antes de prometer run.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="block" id="jornada" aria-labelledby="t-jornada">
+        <div class="sec-head">
+          <p class="kicker"><span class="idx">[02]</span><span class="lab">Núcleo + rotas</span></p>
+          <h2 id="t-jornada">Jornada</h2>
+          <p class="sec-copy">Quatro etapas comuns. Depois, uma rota de aplicação pelo gargalo — não uma fila de 166 aulas.</p>
+        </div>
+        <div class="journey">
+          <div class="j-row core">
+            <a class="j-item" href="cursos/Obsidian-IA/README.md"><span class="n">01 · Núcleo</span><strong>Obsidian + IA</strong><em>Estudar o acervo</em></a>
+            <a class="j-item" href="cursos/Introducao-a-Arquitetura-de-Sistemas/README.md"><span class="n">02 · Núcleo</span><strong>Arquitetura</strong><em>Entender sistemas</em></a>
+            <a class="j-item" href="cursos/AIOX-Fundamentals/README.md"><span class="n">03 · Núcleo</span><strong>Fundamentals</strong><em>Operar o Core</em></a>
+            <a class="j-item" href="cursos/AIOX%20Advanced/README.md"><span class="n">04 · Núcleo</span><strong>Advanced</strong><em>Aplicar o método</em></a>
+          </div>
+          <div class="j-row routes">
+            <a class="j-item" href="cursos/AIOX-Advanced-Squads/README.md"><span class="n">Rota</span><strong>Squads</strong><em>Especialistas publicados</em></a>
+            <a class="j-item" href="cursos/AIOX-Agent-Engineering/README.md"><span class="n">Rota</span><strong>Agent Engineering</strong><em>Capacidade própria</em></a>
+            <a class="j-item" href="cursos/AIOX-Design/README.md"><span class="n">Rota</span><strong>Design</strong><em>Contrato + Storybook</em></a>
+            <a class="j-item" href="cursos/AIOX-Productizacao/README.md"><span class="n">Rota</span><strong>Productização</strong><em>Oferta + mercado</em></a>
+          </div>
+          <p class="j-note">Depois do Advanced e de uma operação real: <a href="cursos/AIOX-Enterprise/README.md">Enterprise</a> é vitrine de prontidão — não entrega componentes proprietários. Oferta: Fundamentals → Advanced → Enterprise. Mapa: <a href="JORNADA-AIOX.md">JORNADA-AIOX.md</a>.</p>
+        </div>
+      </section>
+
+      <section class="block" id="trilhas" aria-labelledby="t-trilhas">
+        <div class="sec-head">
+          <p class="kicker"><span class="idx">[03]</span><span class="lab">Esquema</span></p>
+          <h2 id="t-trilhas">Trilhas desenhadas</h2>
+          <p class="sec-copy">O núcleo é sequencial. As rotas saem do Advanced. Cada curso, abaixo, na ordem de estudo.</p>
+        </div>
+
+        <div class="map">
+          <p class="band"><span>Núcleo comum · 74 aulas · em ordem</span></p>
+          <div class="track" aria-label="Núcleo comum">
+            <a class="station" href="cursos/Obsidian-IA/README.md">
+              <span class="dot"><i></i><span class="wire"></span></span>
+              <strong>Obsidian + IA</strong>
+              <em>Estudar o acervo</em>
+              <b>01 · 9 aulas</b>
+            </a>
+            <a class="station" href="cursos/Introducao-a-Arquitetura-de-Sistemas/README.md">
+              <span class="dot"><i></i><span class="wire"></span></span>
+              <strong>Arquitetura</strong>
+              <em>Entender sistemas</em>
+              <b>02 · 24 aulas</b>
+            </a>
+            <a class="station" href="cursos/AIOX-Fundamentals/README.md">
+              <span class="dot"><i></i><span class="wire"></span></span>
+              <strong>Fundamentals</strong>
+              <em>Operar o Core</em>
+              <b>03 · 12 aulas</b>
+            </a>
+            <a class="station" href="cursos/AIOX%20Advanced/README.md">
+              <span class="dot"><i></i><span class="wire"></span></span>
+              <strong>Advanced</strong>
+              <em>Aplicar o método</em>
+              <b>04 · 29 aulas</b>
+            </a>
+          </div>
+
+          <div class="join" aria-hidden="true"><i></i></div>
+
+          <p class="band"><span>Rotas de aplicação · escolha pelo gargalo</span></p>
+          <div class="fan" aria-label="Rotas depois do Advanced">
+            <a class="station" href="cursos/AIOX-Advanced-Squads/README.md">
+              <span class="dot"><i></i></span>
+              <strong>Squads</strong>
+              <em>Especialistas publicados</em>
+              <b>25 aulas · 24 squads</b>
+            </a>
+            <a class="station" href="cursos/AIOX-Agent-Engineering/README.md">
+              <span class="dot"><i></i></span>
+              <strong>Agent Eng.</strong>
+              <em>Capacidade própria</em>
+              <b>34 aulas</b>
+            </a>
+            <a class="station" href="cursos/AIOX-Design/README.md">
+              <span class="dot"><i></i></span>
+              <strong>Design</strong>
+              <em>Contrato + Storybook</em>
+              <b>20 aulas</b>
+            </a>
+            <a class="station" href="cursos/AIOX-Productizacao/README.md">
+              <span class="dot"><i></i></span>
+              <strong>Productização</strong>
+              <em>Oferta + mercado</em>
+              <b>6 aulas</b>
+            </a>
+          </div>
+
+          <div class="join soft" aria-hidden="true"><i></i></div>
+
+          <p class="band"><span>Preview · Advanced + operação real</span></p>
+          <div class="preview-row">
+            <a class="station" href="cursos/AIOX-Enterprise/README.md">
+              <span class="dot"><i></i></span>
+              <strong>Enterprise</strong>
+              <em>Prontidão, não o produto</em>
+              <b>7 aulas diagnósticas</b>
+            </a>
+          </div>
+          <p class="map-note">Agent Engineering pode seguir para Productização. Agent Engineering, Design e Productização podem terminar em Squads.</p>
+        </div>
+
+        <div class="lines">
+          <a class="line core" href="cursos/Obsidian-IA/README.md">
+            <div class="who"><strong>Obsidian + IA</strong><span>9 aulas</span></div>
+            <div class="stops">
+              <span class="stop">Por que</span>
+              <span class="stop">Abrir o vault</span>
+              <span class="stop">Wikilinks</span>
+              <span class="stop">Graph</span>
+              <span class="stop">Agent professor</span>
+              <span class="stop">Captura</span>
+              <span class="stop">MOCs</span>
+              <span class="stop">Estudo → execução</span>
+              <span class="stop">Prática</span>
+            </div>
+          </a>
+          <a class="line core" href="cursos/Introducao-a-Arquitetura-de-Sistemas/README.md">
+            <div class="who"><strong>Arquitetura</strong><span>24 aulas</span></div>
+            <div class="stops">
+              <span class="stop">Mapa</span>
+              <span class="stop">Dados</span>
+              <span class="stop">Contratos</span>
+              <span class="stop">Execução</span>
+              <span class="stop">Escala</span>
+              <span class="stop">Operação</span>
+              <span class="stop">Segurança</span>
+              <span class="stop">Agentes</span>
+            </div>
+          </a>
+          <a class="line core" href="cursos/AIOX-Fundamentals/README.md">
+            <div class="who"><strong>Fundamentals</strong><span>12 aulas</span></div>
+            <div class="stops">
+              <span class="stop">Fundamentos</span>
+              <span class="stop">Sinais e contexto</span>
+              <span class="stop">Validação básica</span>
+            </div>
+          </a>
+          <a class="line core" href="cursos/AIOX%20Advanced/README.md">
+            <div class="who"><strong>Advanced</strong><span>29 aulas</span></div>
+            <div class="stops">
+              <span class="stop">Mindset</span>
+              <span class="stop">Sistema e contexto</span>
+              <span class="stop">SDC e qualidade</span>
+              <span class="stop">Determinismo</span>
+              <span class="stop">Método e brownfield</span>
+              <span class="stop">Capstone</span>
+            </div>
+          </a>
+          <a class="line" href="cursos/AIOX-Advanced-Squads/README.md">
+            <div class="who"><strong>Squads</strong><span>25 aulas</span></div>
+            <div class="stops">
+              <span class="stop">Escolha e domínio</span>
+              <span class="stop">Autonomia</span>
+              <span class="stop">Dados</span>
+              <span class="stop">Marca e narrativa</span>
+              <span class="stop">Aquisição</span>
+              <span class="stop">Metacapacidades</span>
+            </div>
+          </a>
+          <a class="line" href="cursos/AIOX-Agent-Engineering/README.md">
+            <div class="who"><strong>Agent Engineering</strong><span>34 aulas</span></div>
+            <div class="stops">
+              <span class="stop">Arquitetura</span>
+              <span class="stop">Research</span>
+              <span class="stop">Memória e grafo</span>
+              <span class="stop">Construção</span>
+              <span class="stop">Orquestração</span>
+              <span class="stop">Runtime</span>
+              <span class="stop">Produção</span>
+              <span class="stop">Capstone</span>
+            </div>
+          </a>
+          <a class="line" href="cursos/AIOX-Design/README.md">
+            <div class="who"><strong>Design</strong><span>20 aulas</span></div>
+            <div class="stops">
+              <span class="stop">Decisão</span>
+              <span class="stop">Direção</span>
+              <span class="stop">Contrato</span>
+              <span class="stop">Storybook</span>
+              <span class="stop">Governança</span>
+              <span class="stop">Capstone</span>
+            </div>
+          </a>
+          <a class="line" href="cursos/AIOX-Productizacao/README.md">
+            <div class="who"><strong>Productização</strong><span>6 aulas</span></div>
+            <div class="stops">
+              <span class="stop">Oferta antes do produto</span>
+              <span class="stop">Distribuição e monetização</span>
+              <span class="stop">Capstone</span>
+            </div>
+          </a>
+          <a class="line" href="cursos/AIOX-Enterprise/README.md">
+            <div class="who"><strong>Enterprise</strong><span>7 aulas</span></div>
+            <div class="stops">
+              <span class="stop">Competência → gargalo</span>
+              <span class="stop">Operação como sistema</span>
+              <span class="stop">Prontidão e decisão</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section class="block" id="cursos" aria-labelledby="t-cursos">
+        <div class="sec-head">
+          <p class="kicker"><span class="idx">[04]</span><span class="lab">166 aulas</span></p>
+          <h2 id="t-cursos">Nove cursos</h2>
+          <p class="sec-copy">Contagem canônica de <code>catalog.json</code>, cruzada com cada pasta <code>aulas/</code>. Arquivo morto do Advanced não entra.</p>
+        </div>
+        <div class="courses">
+          <a class="course" href="cursos/Obsidian-IA/README.md">
+            <span class="num">09</span>
+            <div>
+              <h3>Obsidian + IA</h3>
+              <p>Vault, Graph, captura, Context Brief, execução e retorno.</p>
+              <div class="meta"><span class="pill core">Núcleo</span><span><b>9</b> aulas · mini · 110–150 min</span></div>
+            </div>
+          </a>
+          <a class="course" href="cursos/Introducao-a-Arquitetura-de-Sistemas/README.md">
+            <span class="num">24</span>
+            <div>
+              <h3>Introdução à Arquitetura de Sistemas</h3>
+              <p>Componentes, dados, comunicação, fan-out/fan-in, escala, operação, segurança e agentes.</p>
+              <div class="meta"><span class="pill core">Núcleo</span><span><b>24</b> aulas · 8 módulos · 8 quizzes</span></div>
+            </div>
+          </a>
+          <a class="course" href="cursos/AIOX-Fundamentals/README.md">
+            <span class="num">12</span>
+            <div>
+              <h3>AIOX Fundamentals</h3>
+              <p>Instalação, anatomia, 12 agents, contexto, story e validação básica.</p>
+              <div class="meta"><span class="pill core">Núcleo</span><span><b>12</b> aulas · 3 módulos · projeto final</span></div>
+            </div>
+          </a>
+          <a class="course" href="cursos/AIOX%20Advanced/README.md">
+            <span class="num">29</span>
+            <div>
+              <h3>AIOX Advanced</h3>
+              <p>Mindset, contexto, SDC, determinismo e brownfield.</p>
+              <div class="meta"><span class="pill core">Núcleo</span><span><b>29</b> aulas · 6 módulos · 6 quizzes</span></div>
+            </div>
+          </a>
+          <a class="course" href="cursos/AIOX-Advanced-Squads/README.md">
+            <span class="num">25</span>
+            <div>
+              <h3>AIOX Advanced Squads</h3>
+              <p>Introdução + uma aula por squad publicado: briefing e evidência.</p>
+              <div class="meta"><span class="pill route">Rota</span><span><b>25</b> aulas · 24 squads cobertos</span></div>
+            </div>
+          </a>
+          <a class="course" href="cursos/AIOX-Agent-Engineering/README.md">
+            <span class="num">34</span>
+            <div>
+              <h3>AIOX Agent Engineering</h3>
+              <p>Projetar, construir, orquestrar e operar capacidade agentic própria.</p>
+              <div class="meta"><span class="pill route">Rota</span><span><b>34</b> aulas · 8 módulos · capstone</span></div>
+            </div>
+          </a>
+          <a class="course" href="cursos/AIOX-Design/README.md">
+            <span class="num">20</span>
+            <div>
+              <h3>AIOX Design</h3>
+              <p>Repertório → contrato → Storybook → governança e prova visual.</p>
+              <div class="meta"><span class="pill route">Rota</span><span><b>20</b> aulas · 6 módulos · capstone Storybook</span></div>
+            </div>
+          </a>
+          <a class="course" href="cursos/AIOX-Productizacao/README.md">
+            <span class="num">06</span>
+            <div>
+              <h3>AIOX Productização</h3>
+              <p>Capacidade comprovada → oferta, distribuição, formato e monetização.</p>
+              <div class="meta"><span class="pill route">Rota</span><span><b>6</b> aulas · 3 módulos · capstone</span></div>
+            </div>
+          </a>
+          <a class="course" href="cursos/AIOX-Enterprise/README.md">
+            <span class="num">07</span>
+            <div>
+              <h3>AIOX Enterprise</h3>
+              <p>Diagnóstico: a operação já pede infraestrutura mantida?</p>
+              <div class="meta"><span class="pill prev">Preview</span><span><b>7</b> aulas diagnósticas · sem componentes proprietários</span></div>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section class="block" id="skills" aria-labelledby="t-skills">
+        <div class="sec-head">
+          <p class="kicker"><span class="idx">[05]</span><span class="lab">Procedimento estreito</span></p>
+          <h2 id="t-skills">67 skills</h2>
+          <p class="sec-copy">Use skill quando o objetivo é único e claro. Inventário: <a href="cursos/MAPA-SKILLS.md" style="color:var(--lime)">MAPA-SKILLS.md</a>. Cada item aponta para <code>skills/&lt;id&gt;/SKILL.md</code>.</p>
+        </div>
+        <div class="toolbar">
+          <input class="search" id="q-skill" type="search" placeholder="Filtrar skill…" autocomplete="off" />
+          <div class="filters" id="f-skill" role="group" aria-label="Grupo de skills">
+            <button type="button" data-group="all" aria-pressed="true">Todas</button>
+            <button type="button" data-group="squad">Entrada de squad</button>
+            <button type="button" data-group="orbital">Orbitais</button>
+            <button type="button" data-group="sdc">Ciclo / SDC</button>
+            <button type="button" data-group="vault">Vault / util</button>
+            <button type="button" data-group="chief">Chiefs</button>
+          </div>
+          <span class="count-live" id="n-skill">67 / 67</span>
+        </div>
+        <div class="catalog skills" id="list-skills"></div>
+        <p class="empty" id="empty-skills">Nenhuma skill com esse filtro.</p>
+      </section>
+
+      <section class="block" id="squads" aria-labelledby="t-squads">
+        <div class="sec-head">
+          <p class="kicker"><span class="idx">[06]</span><span class="lab">Pacote multi-agente</span></p>
+          <h2 id="t-squads">24 squads</h2>
+          <p class="sec-copy">Use squad quando precisa de vários especialistas ou etapas. Não há um 25º. Router: <a href="cursos/AIOX-Advanced-Squads/Mapa-de-decisao.md" style="color:var(--lime)">Mapa de decisão</a>.</p>
+        </div>
+        <div class="toolbar">
+          <input class="search" id="q-squad" type="search" placeholder="Filtrar squad ou verbo…" autocomplete="off" />
+          <span class="count-live" id="n-squad">24 / 24</span>
+        </div>
+        <div class="catalog squads" id="list-squads"></div>
+        <p class="empty" id="empty-squads">Nenhum squad com esse filtro.</p>
+      </section>
+
+      <section class="block" id="comecar" aria-labelledby="t-comecar">
+        <div class="sec-head">
+          <p class="kicker"><span class="idx">[07]</span><span class="lab">Próximo passo verificável</span></p>
+          <h2 id="t-comecar">Como começar</h2>
+          <p class="sec-copy">Abra a raiz como vault no Obsidian. Não transfira o acervo inteiro para o projeto — leve um Context Brief + o menor asset.</p>
+        </div>
+        <ol class="steps">
+          <li>
+            <span class="n">01</span>
+            <div>
+              <strong>Diagnóstico de trilha</strong>
+              Abra <a href="cursos/COMO-ESTUDAR.md">cursos/COMO-ESTUDAR.md</a> e escolha estudar ou diagnosticar cada etapa do núcleo.
+            </div>
+          </li>
+          <li>
+            <span class="n">02</span>
+            <div>
+              <strong>Primeira evidência</strong>
+              Se o vault é novo: Obsidian + IA. Se termos técnicos travam: Arquitetura. Se já lê sistemas: Fundamentals.
+            </div>
+          </li>
+          <li>
+            <span class="n">03</span>
+            <div>
+              <strong>Missão operacional</strong>
+              Skill isolada se bastar. Squad se a missão pedir vários especialistas. Confirme maturidade em <a href="catalog.json">catalog.json</a>.
+            </div>
+          </li>
+          <li>
+            <span class="n">04</span>
+            <div>
+              <strong>Handoff</strong>
+              Context Brief → copiar <code>skills/&lt;id&gt;</code> ou <code>squads/&lt;id&gt;</code> para o projeto → validar artefato → devolver aprendizado em <code>notas/</code>.
+            </div>
+          </li>
+        </ol>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <span>AIOX Advanced Brain · MIT · IDV lime / dark cockpit</span>
+      <span>
+        <a href="AGENTS.md">AGENTS.md</a> ·
+        <a href="catalog.json">catalog.json</a> ·
+        <a href="https://github.com/oalanicolas/aiox-advanced-brain">GitHub</a>
+      </span>
+    </div>
+  </footer>
+
+  <script>
+    const SKILLS = [
+      { id: "advisory-board", group: "squad", use: "Decisão de alto impacto com várias perspectivas" },
+      { id: "agent-autonomy", group: "squad", use: "Agente em loop ou dependente demais de você" },
+      { id: "aiox-sop", group: "squad", use: "Processo que precisa virar SOP auditável" },
+      { id: "brand", group: "squad", use: "Naming, posicionamento e ativação de marca" },
+      { id: "claude-code-mastery", group: "squad", use: "Hooks, skills, MCP e setup no Claude Code" },
+      { id: "clickup-ops-squad", group: "squad", use: "Processo validado → Spaces, Lists, Fields" },
+      { id: "code-anatomist", group: "squad", use: "Engenharia reversa de um sistema inteiro" },
+      { id: "conteudo", group: "squad", use: "Carrosséis, Reels, Stories e campanha" },
+      { id: "copy", group: "squad", use: "Peças de conversão e frameworks de copy" },
+      { id: "data", group: "squad", use: "Analytics, métricas e decisão por dados" },
+      { id: "db-sage", group: "squad", use: "PostgreSQL / Supabase, RLS, migrations" },
+      { id: "design-ops", group: "squad", use: "Governar um design system já existente" },
+      { id: "design-system", group: "squad", use: "Construir foundations, tokens e componentes" },
+      { id: "domain-decoder", group: "squad", use: "Regras de negócio escondidas no brownfield" },
+      { id: "etl-ops", group: "squad", use: "Extrair, transformar e carregar fontes" },
+      { id: "hormozi", group: "squad", use: "Oferta, leads e escala no método Hormozi" },
+      { id: "research", group: "squad", use: "Pesquisa multi-fonte, bench, OSINT" },
+      { id: "runner-ops", group: "squad", use: "Pipelines headless fora da IDE" },
+      { id: "sales", group: "squad", use: "Funil comercial completo" },
+      { id: "skill-creator-ops", group: "squad", use: "Lifecycle de várias skills" },
+      { id: "slides-creator", group: "squad", use: "Deck com narrativa, visual e QA coordenados" },
+      { id: "squad-creator", group: "squad", use: "Criar um squad canônico" },
+      { id: "squad-creator-pro", group: "squad", use: "Criar squad com extração de expertise" },
+      { id: "storytelling", group: "squad", use: "Arco, tensão e memorabilidade" },
+      { id: "aiox-master", group: "orbital", use: "Governança e conflito de autoridade" },
+      { id: "aiox-analyst", group: "orbital", use: "Pesquisa de mercado, ideação, brownfield" },
+      { id: "aiox-pm", group: "orbital", use: "PRD, épico, roadmap, MoSCoW/RICE" },
+      { id: "aiox-architect", group: "orbital", use: "Arquitetura, APIs, stack e trade-offs" },
+      { id: "aiox-ux-designer", group: "orbital", use: "Fluxos, wireframes e linguagem visual" },
+      { id: "aiox-data-engineer", group: "orbital", use: "Schema, migrations e contratos de dados" },
+      { id: "aiox-sm", group: "orbital", use: "PRD → stories executáveis" },
+      { id: "aiox-po", group: "orbital", use: "Backlog, aceite e ordem de execução" },
+      { id: "aiox-dev", group: "orbital", use: "Implementar quando o aceite já está claro" },
+      { id: "aiox-qa", group: "orbital", use: "Estratégia de testes e quality gate" },
+      { id: "aiox-devops", group: "orbital", use: "Git, CI/CD, release e ambiente" },
+      { id: "validate-story-draft", group: "sdc", use: "Draft → Ready" },
+      { id: "develop-story", group: "sdc", use: "Implementar a story na branch" },
+      { id: "review-story", group: "sdc", use: "Quality gate independente" },
+      { id: "apply-qa-fixes", group: "sdc", use: "Remediar achados do gate" },
+      { id: "deploy-story", group: "sdc", use: "Publicar o artefato aprovado" },
+      { id: "verify-deploy", group: "sdc", use: "Provar o valor no ambiente real" },
+      { id: "close-story", group: "sdc", use: "Única skill que fecha Done" },
+      { id: "full-sdc", group: "sdc", use: "Ciclo completo de uma story" },
+      { id: "enhance-workflow", group: "sdc", use: "Melhorar um workflow existente" },
+      { id: "roundtable", group: "sdc", use: "Revisão multi-perspectiva" },
+      { id: "three-brain", group: "sdc", use: "Roteamento de motor / no-self-review" },
+      { id: "telegram", group: "sdc", use: "Canal e gateway de mensagens" },
+      { id: "aiox-brain", group: "vault", use: "Usar este repo como segundo cérebro" },
+      { id: "aiox-squads", group: "vault", use: "Router universal dos 24 squads" },
+      { id: "obsidian-course-vault", group: "vault", use: "Abrir vault, achar aula, Graph" },
+      { id: "course-moc", group: "vault", use: "Mapas e hubs — como X se liga a Y" },
+      { id: "study-capture", group: "vault", use: "Anotar sem editar o canônico" },
+      { id: "teach", group: "vault", use: "Melhorar aula, exercício ou quiz" },
+      { id: "design-md", group: "vault", use: "Contrato DESIGN.md e drift visual" },
+      { id: "skill-creator", group: "vault", use: "Criar e empacotar uma skill" },
+      { id: "slide-creator", group: "vault", use: "Deck standalone, sem squad" },
+      { id: "tech-search", group: "vault", use: "Pesquisa técnica curta e autocontida" },
+      { id: "tech-research", group: "vault", use: "Dossiê técnico multi-wave" },
+      { id: "handoff", group: "vault", use: "Compactar contexto para outro agent" },
+      { id: "impeccable", group: "vault", use: "Craft visual depois do gate" },
+      { id: "doc-rot", group: "vault", use: "Documentação apodrecida" },
+      { id: "extract-session-heuristics", group: "vault", use: "Heurísticas reutilizáveis de sessão" },
+      { id: "deep-strategic-planning", group: "vault", use: "Planejamento estratégico longo" },
+      { id: "survey-intel", group: "vault", use: "CSV/NPS → segmentos e briefing" },
+      { id: "design-chief", group: "chief", use: "Triagem da camada de design" },
+      { id: "decoder-chief", group: "chief", use: "Orquestra decoder — não substitui o squad" },
+      { id: "squad-chief", group: "chief", use: "Criar/validar squad por template" }
+    ];
+
+    const SQUADS = [
+      { id: "advisory-board", use: "Decidir com menos viés e groupthink" },
+      { id: "research", use: "Pesquisar antes de deliberar" },
+      { id: "code-anatomist", use: "Entender um sistema inteiro" },
+      { id: "domain-decoder", use: "Extrair regras de negócio do código" },
+      { id: "agent-autonomy", use: "Tirar o agente do loop humano" },
+      { id: "claude-code-mastery", use: "Configurar e dominar o Claude Code" },
+      { id: "aiox-sop", use: "Documentar processo repetível" },
+      { id: "etl-ops", use: "Extrair e transformar fontes" },
+      { id: "runner-ops", use: "Operar pipeline headless" },
+      { id: "data", use: "Analisar negócio e métricas" },
+      { id: "db-sage", use: "Modelar ou operar Postgres/Supabase" },
+      { id: "clickup-ops-squad", use: "Materializar processo no ClickUp" },
+      { id: "brand", use: "Construir ou evoluir marca" },
+      { id: "design-system", use: "Criar tokens e componentes" },
+      { id: "design-ops", use: "Governar um DS existente" },
+      { id: "storytelling", use: "Estruturar narrativa" },
+      { id: "slides-creator", use: "Produzir apresentação" },
+      { id: "conteudo", use: "Operar conteúdo social" },
+      { id: "copy", use: "Escrever para conversão" },
+      { id: "sales", use: "Operar o funil comercial" },
+      { id: "hormozi", use: "Oferta, leads e escala Hormozi" },
+      { id: "skill-creator-ops", use: "Governar várias skills" },
+      { id: "squad-creator", use: "Criar um squad canônico" },
+      { id: "squad-creator-pro", use: "Criar squad com extração de expertise" }
+    ];
+
+    const GROUP_LABEL = {
+      squad: "entrada de squad",
+      orbital: "orbital · core",
+      sdc: "ciclo / SDC",
+      vault: "vault / util",
+      chief: "chief"
+    };
+
+    function renderSkills() {
+      const root = document.getElementById("list-skills");
+      root.innerHTML = SKILLS.map((s) => `
+        <a class="card" data-group="${s.group}" data-q="${(s.id + " " + s.use).toLowerCase()}" href="skills/${s.id}/SKILL.md">
+          <div class="id">${s.id}</div>
+          <p>${s.use}</p>
+          <span class="tag">${GROUP_LABEL[s.group]}</span>
+        </a>`).join("");
+    }
+
+    function renderSquads() {
+      const root = document.getElementById("list-squads");
+      root.innerHTML = SQUADS.map((s) => `
+        <a class="card" data-q="${(s.id + " " + s.use).toLowerCase()}" href="squads/${s.id}/">
+          <div class="id">${s.id}</div>
+          <p>${s.use}</p>
+          <span class="tag">squad · aula em Advanced Squads</span>
+        </a>`).join("");
+    }
+
+    function bindFilter({ input, buttons, cardsSel, empty, counter, total }) {
+      let group = "all";
+      const apply = () => {
+        const q = (input?.value || "").trim().toLowerCase();
+        let n = 0;
+        document.querySelectorAll(cardsSel).forEach((el) => {
+          const g = el.getAttribute("data-group");
+          const okG = !g || group === "all" || g === group;
+          const okQ = !q || (el.getAttribute("data-q") || "").includes(q);
+          const show = okG && okQ;
+          el.hidden = !show;
+          if (show) n += 1;
+        });
+        counter.textContent = n + " / " + total;
+        empty.classList.toggle("show", n === 0);
+      };
+      input?.addEventListener("input", apply);
+      buttons?.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          group = btn.dataset.group;
+          buttons.forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+          apply();
+        });
+      });
+      apply();
+    }
+
+    renderSkills();
+    renderSquads();
+    bindFilter({
+      input: document.getElementById("q-skill"),
+      buttons: document.querySelectorAll("#f-skill button"),
+      cardsSel: "#list-skills .card",
+      empty: document.getElementById("empty-skills"),
+      counter: document.getElementById("n-skill"),
+      total: SKILLS.length
+    });
+    bindFilter({
+      input: document.getElementById("q-squad"),
+      cardsSel: "#list-squads .card",
+      empty: document.getElementById("empty-squads"),
+      counter: document.getElementById("n-squad"),
+      total: SQUADS.length
+    });
+  </script>
+</body>
+</html>
